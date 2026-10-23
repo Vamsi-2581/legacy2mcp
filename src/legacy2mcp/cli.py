@@ -58,12 +58,13 @@ def _cmd_inspect(args: argparse.Namespace) -> None:
             }
             for _, tool_def in app._tools.values()
         ]
-        if args.tool is not None:
-            matches = [tool for tool in tools if tool["name"] == args.tool]
+        tool_name = getattr(args, "tool", None)
+        if tool_name is not None:
+            matches = [tool for tool in tools if tool["name"] == tool_name]
             if not matches:
                 available = ", ".join(tool["name"] for tool in tools) or "none"
                 print(
-                    f"error: no tool named {args.tool!r}; available tools: {available}",
+                    f"error: no tool named {tool_name!r}; available tools: {available}",
                     file=sys.stderr,
                 )
                 sys.exit(1)
